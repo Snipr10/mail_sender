@@ -78,9 +78,11 @@ def send_message_time(id_, uri, time_, email, report_text):
         print(seconds-time_)
         i, file_name = get_report(uri)
         print("send_message_time")
-        if seconds > 0:
-            time.sleep(seconds)
+        if time_-seconds > 0:
+            time.sleep(time_-seconds)
         try:
+            print("send_message_time")
+
             send_message_email(email, i, file_name, report_text)
             new, conn = get_cursor()
             new.execute(
