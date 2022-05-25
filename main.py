@@ -59,6 +59,7 @@ def sends():
         )
         conn.commit()
         reference_ids = ""
+        print(line(3))
         for r in list(json.loads(line(3))):
             reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
