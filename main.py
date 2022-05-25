@@ -118,6 +118,6 @@ def sends():
 if __name__ == '__main__':
     SESSION = login(SESSION)
 
-    i, file_name = get_report(uri)
+    # i, file_name = get_report(uri)
 
     sends()
