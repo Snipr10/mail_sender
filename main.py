@@ -76,6 +76,7 @@ def send_message_time(id_, uri, time_, email, report_text):
         if seconds > 0:
             time.sleep(seconds)
         try:
+            send_message_email(email, i, file_name, report_text)
             new, conn = get_cursor()
             new.execute(
                     "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (datetime.datetime.now(), id_, )
