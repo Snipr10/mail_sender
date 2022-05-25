@@ -55,5 +55,6 @@ if __name__ == '__main__':
         new.execute(
             "UPDATE `prsr_user_mail` set is_prepare=1 WHERE id=?", (line[0],)
         )
-        print(new)
+        for s in new:
+            print(s)
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
