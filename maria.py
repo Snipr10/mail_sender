@@ -20,4 +20,4 @@ def get_cursor():
 
     # Get Cursor
     cur = conn.cursor()
-    return cur
+    return cur, conn
