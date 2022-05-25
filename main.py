@@ -61,7 +61,7 @@ def sends():
 
         uri = URL % (line[7], line[4])
         print(uri)
-        str = "reference_ids[]".join(json.loads("[1,2,3,4]"))
+        str = "reference_ids[]".join(list(json.loads("[1,2,3,4]")))
         print(str)
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
     conn.close()
