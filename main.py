@@ -7,6 +7,7 @@ import threading
 
 from maria import get_cursor
 
+URL = "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
 
 
 
@@ -36,8 +37,7 @@ def send_message_time(uri, time_, chat_id, report_text):
     except Exception as e:
         print(e)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
+def sends():
     datetime.datetime.now()
     cur, set_conn = get_cursor()
     cur.execute(
@@ -45,7 +45,7 @@ if __name__ == '__main__':
         (
             (datetime.datetime.now() - datetime.timedelta(minutes=10)).strftime('%H:%M:%S'),
             (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
-        )
+    )
     # for id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare) in cur:
     new, conn = get_cursor()
 
@@ -57,7 +57,13 @@ if __name__ == '__main__':
             "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
         )
         conn.commit()
-        uri = None
+
+        uri = URL % (line[7], line[4])
+        print(uri)
+        print(line[4])
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
     conn.close()
     set_conn.close()
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    sends()
