@@ -3,6 +3,7 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import datetime
+import json
 import threading
 
 from maria import get_cursor
@@ -60,7 +61,8 @@ def sends():
 
         uri = URL % (line[7], line[4])
         print(uri)
-        print(line[3])
+        str = "reference_ids[]".join(json.loads("[1,2,3,4]"))
+        print(str)
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
     conn.close()
     set_conn.close()
