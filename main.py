@@ -47,7 +47,7 @@ if __name__ == '__main__':
             (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
         )
     # for id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare) in cur:
-    for (email, trst) in cur:
+    for (email) in cur:
 
         print(f"First Name: {email[0]}, Last Name: {email[0]}")
         # cur.execute(
