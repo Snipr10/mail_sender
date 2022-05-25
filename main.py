@@ -60,7 +60,7 @@ def sends():
 
         uri = URL % (line[7], line[4])
         print(uri)
-        print(line[4])
+        print(line[3])
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
     conn.close()
     set_conn.close()
