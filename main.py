@@ -2,6 +2,8 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import datetime
+
 from maria import get_cursor
 
 
@@ -10,11 +12,14 @@ def print_hi(name):
     print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
 
+
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
+    datetime.datetime.now()
     cur = get_cursor()
     cur.execute(
-        "SELECT * FROM `prsr_user_mail` WHERE `last_mailing` > '2022-05-24 08:43:54'"
+        "SELECT * FROM `prsr_user_mail` WHERE `last_mailing` > ?",
+        (datetime.datetime.now() - datetime.timedelta(days=1, hours=1)).strftime('%Y-%m-%d %H:%M:%S')
         )
     for (email) in cur:
         print(f"First Name: {email}, Last Name: {email}")
