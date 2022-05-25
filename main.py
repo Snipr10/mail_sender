@@ -41,7 +41,7 @@ if __name__ == '__main__':
     datetime.datetime.now()
     cur = get_cursor()
     cur.execute(
-        "SELECT id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepar FROM `prsr_user_mail` WHERE is_prepare=0 and (`mailing_time` >= '23:50' or `mailing_time` >= ?)  and `last_mailing` < ?",
+        "SELECT id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare FROM `prsr_user_mail` WHERE is_prepare=0 and (`mailing_time` >= '23:50' or `mailing_time` >= ?)  and `last_mailing` < ?",
         (
             (datetime.datetime.now() - datetime.timedelta(minutes=10)).strftime('%H:%M:%S'),
             (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
