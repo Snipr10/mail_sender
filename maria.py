@@ -1,5 +1,5 @@
 # Module Imports
-# import mariadb
+import mariadb
 import sys
 
 
