@@ -63,7 +63,10 @@ def send_message_email(email_to, file, file_name, report_text):
     msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename=file_name)
 
     with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
+        print("try login")
+
         server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
+        print("sucess login")
         server.send_message(msg)
 
 
