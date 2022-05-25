@@ -14,7 +14,7 @@ def print_hi(name):
 if __name__ == '__main__':
     cur = get_cursor()
     cur.execute(
-        "SELECT * FROM `prsr_user_mail` WHERE `last_mailing` > '2022-05-24 08:43:54"
+        "SELECT * FROM `prsr_user_mail` WHERE `last_mailing` > '2022-05-24 08:43:54'"
         )
     for (email) in cur:
         print(f"First Name: {email}, Last Name: {email}")
