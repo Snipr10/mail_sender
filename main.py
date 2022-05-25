@@ -47,12 +47,15 @@ if __name__ == '__main__':
             (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
         )
     # for id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare) in cur:
+    new, conn = get_cursor()
+
     for line in cur:
         print(line[0])
         print(f"First Name: {line[0]}, Last Name: {line[0]}")
 
-        cur.execute(
+        new.execute(
             "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
         )
         conn.commit()
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
+    conn.close()
