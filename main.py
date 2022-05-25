@@ -11,32 +11,24 @@ from maria import get_cursor
 URL = "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
 
 
-
-
-def send_message_time(uri, time_, chat_id, report_text):
+def send_message_time(uri, time_, email, report_text):
     try:
-        print(uri)
-        print(time_)
-        i, file_name = get_report(uri)
-        sleep_time = (time_ - get_time_now()).seconds + 5
-        if sleep_time > 0:
-            time.sleep(sleep_time)
-        print("send" + str(uri))
+
+        # i, file_name = get_report(uri)
+        # sleep_time = (time_ - get_time_now()).seconds + 5
+        # if sleep_time > 0:
+        #     time.sleep(sleep_time)
+        # print("send" + str(uri))
         # TODO send email
+
         try:
-            updater.bot.send_document(chat_id=chat_id,
-                                      document=i,
-                                      filename=file_name,
-                                      caption=report_text
-                                      )
-        except Exception:
-            pass
-        try:
-            send_message_email(get_mail(chat_id), i, file_name, report_text)
+            print(report_text)
+            # send_message_email(get_mail(chat_id), i, file_name, report_text)
         except Exception as e:
             print(e)
     except Exception as e:
         print(e)
+
 
 def sends():
     datetime.datetime.now()
@@ -52,6 +44,7 @@ def sends():
 
     for line in cur:
         print(line)
+        print(line)
         print(f"First Name: {line[0]}, Last Name: {line[0]}")
 
         new.execute(
@@ -62,10 +55,10 @@ def sends():
         for r in json.loads(line[3]):
             reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
-        print(uri)
-        # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
+        threading.Thread(target=send_message_time, args=(uri, "time", line[6], line[5])).start()
     conn.close()
     set_conn.close()
 # Press the green button in the gutter to run the script.
+
 if __name__ == '__main__':
     sends()
