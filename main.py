@@ -39,7 +39,7 @@ def send_message_time(uri, time_, chat_id, report_text):
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     datetime.datetime.now()
-    cur = get_cursor()
+    cur, conn = get_cursor()
     cur.execute(
         "SELECT id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare FROM `prsr_user_mail` WHERE is_prepare=0 and (`mailing_time` >= '23:50' or `mailing_time` >= ?)  and `last_mailing` < ?",
         (
@@ -50,11 +50,11 @@ if __name__ == '__main__':
     for line in cur:
         print(line[0])
         print(f"First Name: {line[0]}, Last Name: {line[0]}")
-        new = get_cursor()
+        new, conn = get_cursor()
 
         new.execute(
             "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
         )
-        new.commit()
-        new.close()
+        conn.commit()
+        conn.close()
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
