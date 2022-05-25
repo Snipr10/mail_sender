@@ -19,7 +19,7 @@ if __name__ == '__main__':
     cur = get_cursor()
     cur.execute(
         "SELECT * FROM `prsr_user_mail` WHERE `last_mailing` > ?",
-        (datetime.datetime.now() - datetime.timedelta(days=1, hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+        ((datetime.datetime.now() - datetime.timedelta(days=1, hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
         )
     for (email) in cur:
         print(f"First Name: {email}, Last Name: {email}")
