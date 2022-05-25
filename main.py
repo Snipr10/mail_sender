@@ -48,7 +48,7 @@ if __name__ == '__main__':
         )
     # for id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare) in cur:
     for line in cur:
-        print(line)
+        print(line[0])
         # print(f"First Name: {line[0]}, Last Name: {line[0]}")
         # cur.execute(
         #     "UPDATE `prsr_user_mail` set is_prepare=1 WHERE id=?", (line[0],)
