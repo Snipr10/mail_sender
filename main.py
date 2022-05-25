@@ -21,6 +21,7 @@ LOGIN_URL = "https://api.glassen-it.com/component/socparser/authorization/login"
 
 SESSION = requests.session()
 EMAIL = 'report@glassen-it.com'
+EMAIL_LOGIN = "report"
 EMAIL_PASSWORD = "J7sp7b8jf"
 
 def login(session):
@@ -62,11 +63,11 @@ def send_message_email(email_to, file, file_name, report_text):
     msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename=file_name)
 
     with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
-        server.login(EMAIL, EMAIL_PASSWORD)
+        server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
         server.send_message(msg)
 
 
-def send_message_time(uri, time_, email, report_text):
+def send_message_time(id_, uri, time_, email, report_text):
     try:
         now_time = datetime.datetime.now()
         seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
@@ -74,10 +75,11 @@ def send_message_time(uri, time_, email, report_text):
         i, file_name = get_report(uri)
         if seconds > 0:
             time.sleep(seconds)
-        print("send" + str(uri))
-
         try:
-            send_message_email(email, i, file_name, report_text)
+            new, conn = get_cursor()
+            new.execute(
+                    "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (datetime.datetime.now(), id_, )
+            )
         except Exception as e:
             print(e)
     except Exception as e:
@@ -110,14 +112,12 @@ def sends():
             reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
         print(uri)
-        threading.Thread(target=send_message_time, args=(uri, line[2].seconds, line[6], line[5])).start()
+        threading.Thread(target=send_message_time, args=(line[0], uri, line[2].seconds, line[6], line[5])).start()
     conn.close()
     set_conn.close()
 # Press the green button in the gutter to run the script.
 
+
 if __name__ == '__main__':
     SESSION = login(SESSION)
-
-    # i, file_name = get_report(uri)
-
     sends()
