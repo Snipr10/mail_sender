@@ -2,13 +2,68 @@
 
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-import datetime
 import json
+
 import threading
+import time
+from email.message import EmailMessage
+from io import BytesIO
+import datetime
+import smtplib, ssl
+import mimetypes
+
+import requests as requests
 
 from maria import get_cursor
 
 URL = "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
+LOGIN_URL = "https://api.glassen-it.com/component/socparser/authorization/login"
+
+SESSION = requests.session()
+EMAIL = 'report@glassen-it.com'
+EMAIL_PASSWORD = "J7sp7b8jf"
+
+def login(session):
+    payload = {
+        "login": "java_api",
+        "password": "4yEcwVnjEH7D"
+    }
+    response = session.post(LOGIN_URL, json=payload)
+    if not response.ok:
+        raise Exception("can not login")
+    return session
+
+
+def get_report(uri):
+    report = SESSION.get(uri)
+    i = BytesIO(report.content)
+    file_name = bytes(
+        report.headers.get('Content-Disposition').replace("attachment;filename=", "").replace(
+            '"', ""), 'latin1').decode('utf-8')
+    return i, file_name
+
+
+def send_message_email(email_to, file, file_name, report_text):
+    port = 465
+    context = ssl.create_default_context()
+
+    msg = EmailMessage()
+    msg['Subject'] = 'Автоматическая рассылка отчёта по выбранным субъектам/событиям'
+    msg['From'] = EMAIL
+    msg['To'] = email_to
+
+    file.seek(0)
+    binary_data = file.read()
+    maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
+    msg.set_content('Добрый день! \n'
+                    'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
+                    f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
+                    )
+    msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename=file_name)
+
+    with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
+        server.login(EMAIL, EMAIL_PASSWORD)
+        server.send_message(msg)
 
 
 def send_message_time(uri, time_, email, report_text):
@@ -16,16 +71,13 @@ def send_message_time(uri, time_, email, report_text):
         now_time = datetime.datetime.now()
         seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
         print(seconds-time_)
-        # i, file_name = get_report(uri)
-        # sleep_time = (time_ - get_time_now()).seconds + 5
-        # if sleep_time > 0:
-        #     time.sleep(sleep_time)
-        # print("send" + str(uri))
-        # TODO send email
+        i, file_name = get_report(uri)
+        if seconds > 0:
+            time.sleep(seconds)
+        print("send" + str(uri))
 
         try:
-            print(report_text)
-            # send_message_email(get_mail(chat_id), i, file_name, report_text)
+            send_message_email(email, i, file_name, report_text)
         except Exception as e:
             print(e)
     except Exception as e:
@@ -57,10 +109,15 @@ def sends():
         for r in json.loads(line[3]):
             reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
+        print(uri)
         threading.Thread(target=send_message_time, args=(uri, line[2].seconds, line[6], line[5])).start()
     conn.close()
     set_conn.close()
 # Press the green button in the gutter to run the script.
 
 if __name__ == '__main__':
+    SESSION = login(SESSION)
+
+    i, file_name = get_report(uri)
+
     sends()
