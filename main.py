@@ -50,11 +50,9 @@ if __name__ == '__main__':
     for line in cur:
         print(line[0])
         print(f"First Name: {line[0]}, Last Name: {line[0]}")
-        new, conn = get_cursor()
 
-        new.execute(
+        cur.execute(
             "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
         )
         conn.commit()
-        conn.close()
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
