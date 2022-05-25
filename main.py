@@ -57,7 +57,7 @@ def sends():
         for r in json.loads(line[3]):
             reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
-        threading.Thread(target=send_message_time, args=(uri, int(line[3]), line[6], line[5])).start()
+        threading.Thread(target=send_message_time, args=(uri, int(line[2]), line[6], line[5])).start()
     conn.close()
     set_conn.close()
 # Press the green button in the gutter to run the script.
