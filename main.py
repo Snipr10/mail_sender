@@ -13,7 +13,9 @@ URL = "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?p
 
 def send_message_time(uri, time_, email, report_text):
     try:
-
+        now_time = datetime.datetime.now()
+        seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
+        print(seconds-time_)
         # i, file_name = get_report(uri)
         # sleep_time = (time_ - get_time_now()).seconds + 5
         # if sleep_time > 0:
@@ -55,7 +57,7 @@ def sends():
         for r in json.loads(line[3]):
             reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
-        threading.Thread(target=send_message_time, args=(uri, "time", line[6], line[5])).start()
+        threading.Thread(target=send_message_time, args=(uri, int(line[6]), line[6], line[5])).start()
     conn.close()
     set_conn.close()
 # Press the green button in the gutter to run the script.
