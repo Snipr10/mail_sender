@@ -73,11 +73,12 @@ def send_message_email(email_to, file, file_name, report_text):
 
 def send_message_time(id_, uri, time_, email, report_text):
     try:
+
+        i, file_name = get_report(uri)
+        print("send_message_time")
         now_time = datetime.datetime.now()
         seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
         print(seconds-time_)
-        i, file_name = get_report(uri)
-        print("send_message_time")
         if time_-seconds > 0:
             time.sleep(time_-seconds)
         try:
@@ -88,6 +89,8 @@ def send_message_time(id_, uri, time_, email, report_text):
             new.execute(
                     "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (datetime.datetime.now(), id_, )
             )
+            conn.commit()
+            conn.close()
         except Exception as e:
             print(e)
     except Exception as e:
