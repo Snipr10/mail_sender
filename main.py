@@ -58,11 +58,11 @@ def sends():
             "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
         )
         conn.commit()
-
-        uri = URL % (line[7], line[4])
+        reference_ids = ""
+        for r in json.loads(line(3)):
+            reference_ids += "&reference_ids[]=" + str(r)
+        uri = URL % (line[7], line[4]) + reference_ids
         print(uri)
-        str_ = "&reference_ids[]=".join(str(x) for x in json.loads("[1,2,3,4]"))
-        print(str_)
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
     conn.close()
     set_conn.close()
