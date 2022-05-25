@@ -47,10 +47,10 @@ if __name__ == '__main__':
             (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
         )
     # for id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare) in cur:
-    for (email) in cur:
+    for (line) in cur:
 
-        print(f"First Name: {email[0]}, Last Name: {email[0]}")
-        # cur.execute(
-        #     "UPDATE `prsr_user_mail` set is_prepare=1 WHERE id=?", (email,)
-        # )
+        print(f"First Name: {line[0]}, Last Name: {line[0]}")
+        cur.execute(
+            "UPDATE `prsr_user_mail` set is_prepare=1 WHERE id=?", (line[0],)
+        )
         # threading.Thread(target=send_message_time, args=(uri, time, int(d[0]), d[4])).start()
