@@ -65,7 +65,7 @@ def send_message_email(email_to, file, file_name, report_text):
                     'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
                     f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
                     )
-    msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename=file_name)
+    msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename="report.docx")
     print("smtplib login")
 
     with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
