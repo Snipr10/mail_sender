@@ -145,6 +145,8 @@ if __name__ == '__main__':
     print(get_now())
     while True:
         print("step")
+        print(get_now())
+
         try:
             sends()
         except Exception as e:
