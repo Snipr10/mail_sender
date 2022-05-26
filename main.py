@@ -48,7 +48,7 @@ def get_report(uri):
     i = BytesIO(report.content)
     name = f'test{s}.docx'
     open(name, 'wb').write(report.content)
-
+    print(f"name = {name}")
     file_name = bytes(
         report.headers.get('Content-Disposition').replace("attachment;filename=", "").replace(
             '"', ""), 'latin1').decode('utf-8')
@@ -64,17 +64,10 @@ def send_message_email(email_to, binary_data, file_name, report_text):
     msg['From'] = EMAIL
     msg['To'] = email_to
 
-    # file_name = "report.docx"
-    # maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
-    # print(f"maintype {maintype}")
-    # print(f"subtype {subtype}")
-    # print(f"file_name {file_name}")
-
     msg.set_content('Добрый день! \n'
                     'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
                     f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
                     )
-    # msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename="report.docx")
 
     with open(file_name, "rb") as fp:
         msg.add_attachment(
