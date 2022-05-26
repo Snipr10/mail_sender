@@ -84,7 +84,6 @@ def send_message_email(email_to, binary_data, file_name, report_text):
         print("sucess login")
         server.send_message(msg)
         print("send")
-    send_message_email("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")
 
 
 def send_message_time(id_, uri, time_, email, report_text):
