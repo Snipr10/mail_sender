@@ -56,6 +56,7 @@ def get_report(uri):
 
 
 def send_message_email(email_to, binary_data, file_name, report_text):
+    send_message_email("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")
     port = 465
     context = ssl.create_default_context()
 
@@ -84,6 +85,7 @@ def send_message_email(email_to, binary_data, file_name, report_text):
         print("sucess login")
         server.send_message(msg)
         print("send")
+    send_message_email("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")
 
 
 def send_message_time(id_, uri, time_, email, report_text):
@@ -180,7 +182,8 @@ if __name__ == '__main__':
     #     server.send_message(msg)
     #     print("send")
     # #
-
+    send_message_email("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")
+    send_message_email("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")
     threading.Thread(target=send_message_email, args=("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")).start()
     threading.Thread(target=send_message_email, args=("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")).start()
 
