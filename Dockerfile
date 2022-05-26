@@ -1,6 +1,6 @@
 FROM python:3.9-slim-buster
 
-RUN sudo apt-get install libmariadb3 libmariadb-dev
+RUN apt-get install libmariadb3 libmariadb-dev
 
 
 
