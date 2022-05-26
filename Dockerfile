@@ -1,4 +1,5 @@
-FROM python:3.9.13-alpine3.16
+FROM python:3.9
+
 RUN apk update
 RUN apk add
 
