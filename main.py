@@ -71,6 +71,7 @@ def send_message_email(email_to, i, file_name, report_text):
 
 def send_message_time(id_, uri, time_, email, report_text):
     try:
+        print(id_)
         i, file_name = get_report(uri)
 
         now_time = datetime.datetime.now()
