@@ -1,6 +1,6 @@
 FROM python:3.9.13-alpine3.16
 
-RUN sudo apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
 
 
 # set work directory
