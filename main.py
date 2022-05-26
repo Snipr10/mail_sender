@@ -84,9 +84,7 @@ def send_message_time(id_, uri, time_, email, report_text):
     try:
 
         i, file_name = get_report(uri)
-        # i, file_name = get_report(
-        #     "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=day&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
-        # )
+
         print("send_message_time")
         now_time = datetime.datetime.now()
         seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
@@ -96,8 +94,9 @@ def send_message_time(id_, uri, time_, email, report_text):
         try:
             print("send_message_time")
 
+            send_message_email(email, i, file_name, "report_text")
 
-            send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
+            # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
 
             # i, file_name = get_report(uri)
             # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
