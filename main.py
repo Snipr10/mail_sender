@@ -172,27 +172,27 @@ if __name__ == '__main__':
     # #     f.write(chunk)
     # # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
     # #
-    # port = 465
-    # context = ssl.create_default_context()
+    port = 465
+    context = ssl.create_default_context()
     #
-    # msg = EmailMessage()
-    # msg['Subject'] = 'Автоматическая рассылка отчёта по выбранным субъектам/событиям'
-    # msg['From'] = EMAIL
-    # msg['To'] = "gusevoleg96@gmail.com"
-    #
-    # msg.set_content("Hello, victim!")
-    #
-    # with open("1.docx", "rb") as fp:
-    #     msg.add_attachment(
-    #         fp.read(), maintype="file", subtype="doxc", filename="aqw.doxc")
-    #
-    # with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
-    #     print("try login")
-    #
-    #     server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
-    #     print("sucess login")
-    #     server.send_message(msg)
-    #     print("send")
+    msg = EmailMessage()
+    msg['Subject'] = 'Автоматическая рассылка отчёта по выбранным субъектам/событиям'
+    msg['From'] = EMAIL
+    msg['To'] = "gusevoleg96@gmail.com"
+
+    msg.set_content("Hello, victim!")
+
+    with open("test.docx", "rb") as fp:
+        msg.add_attachment(
+            fp.read(), maintype="file", subtype="doxc", filename="aqw.doxc")
+
+    with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
+        print("try login")
+
+        server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
+        print("sucess login")
+        server.send_message(msg)
+        print("send")
 
 
     sends()
