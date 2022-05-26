@@ -2,6 +2,8 @@ FROM python:3.9.13-alpine3.16
 RUN apk update
 RUN apk add
 
+RUN apk update --update libmariadb3
+
 RUN apt-get install libmariadb3 libmariadb-dev
 
 
