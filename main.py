@@ -19,7 +19,7 @@ from maria import get_cursor
 URL = "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
 LOGIN_URL = "https://api.glassen-it.com/component/socparser/authorization/login"
 
-SESSION = requests.session()
+
 EMAIL = 'report@glassen-it.com'
 EMAIL_LOGIN = "report"
 EMAIL_PASSWORD = "J7sp7b8jf"
@@ -35,9 +35,12 @@ def login(session):
         raise Exception("can not login")
     return session
 
+SESSION = login(requests.session())
+
 
 def get_report(uri):
     report = SESSION.get(uri)
+    print(uri)
     i = BytesIO(report.content)
     file_name = bytes(
         report.headers.get('Content-Disposition').replace("attachment;filename=", "").replace(
