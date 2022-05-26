@@ -57,6 +57,10 @@ def send_message_email(email_to, file, file_name, report_text):
     file.seek(0)
     binary_data = file.read()
     maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
+    print(f"maintype {maintype}")
+    print(f"subtype {subtype}")
+    print(f"file_name {file_name}")
+
     msg.set_content('Добрый день! \n'
                     'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
                     f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
