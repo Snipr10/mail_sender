@@ -24,6 +24,7 @@ EMAIL = 'report@glassen-it.com'
 EMAIL_LOGIN = "report"
 EMAIL_PASSWORD = "J7sp7b8jf"
 
+
 def login(session):
     payload = {
         "login": "java_api",
@@ -130,5 +131,12 @@ def sends():
 
 
 if __name__ == '__main__':
+
+
     SESSION = login(SESSION)
-    sends()
+    i, file_name = get_report(    "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=day&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
+)
+    send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
+
+
+    # sends()
