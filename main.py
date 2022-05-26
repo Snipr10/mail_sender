@@ -99,6 +99,10 @@ def send_message_time(id_, uri, time_, email, report_text):
             time.sleep(time_-seconds)
         try:
             send_message_email(str(email), binary_data, file_name, "report_text")
+            send_message_email(str(email), binary_data, file_name, "report_text")
+            send_message_email(str(email), binary_data, file_name, "report_text")
+            send_message_email(str(email), binary_data, file_name, "report_text")
+
             new, conn = get_cursor()
             new.execute(
                     "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (datetime.datetime.now(), id_, )
@@ -120,13 +124,9 @@ def sends():
             (datetime.datetime.now() - datetime.timedelta(minutes=10)).strftime('%H:%M:%S'),
             (datetime.datetime.now() + datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
     )
-    # for id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare) in cur:
     new, conn = get_cursor()
 
     for line in cur:
-        print(line)
-        print(line)
-        print(f"First Name: {line[0]}, Last Name: {line[0]}")
 
         new.execute(
             "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
@@ -182,9 +182,9 @@ if __name__ == '__main__':
     #     server.send_message(msg)
     #     print("send")
     # #
-    send_message_email("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")
-    send_message_email("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")
-    threading.Thread(target=send_message_email, args=("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")).start()
-    threading.Thread(target=send_message_email, args=("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")).start()
+    # send_message_email("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")
+    # send_message_email("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")
+    # threading.Thread(target=send_message_email, args=("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")).start()
+    # threading.Thread(target=send_message_email, args=("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")).start()
 
     sends()
