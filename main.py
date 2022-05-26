@@ -61,28 +61,17 @@ def send_message_email(email_to, binary_data, file_name, report_text):
     msg['To'] = email_to
 
     file_name = "report.docx"
-    # maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
-    # print(f"maintype {maintype}")
-    # print(f"subtype {subtype}")
-    # print(f"file_name {file_name}")
-    #
-    # msg.set_content('Добрый день! \n'
-    #                 'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
-    #                 f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
-    #                 )
-    # msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename="report.docx")
+    maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
+    print(f"maintype {maintype}")
+    print(f"subtype {subtype}")
+    print(f"file_name {file_name}")
 
-    # attachment = open(file_name, 'rb')
+    msg.set_content('Добрый день! \n'
+                    'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
+                    f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
+                    )
+    msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename="report.docx")
 
-    part = MIMEBase("application", "octet-stream")
-
-    part.set_payload(binary_data)
-
-
-    part.add_header("Content-Disposition",
-                    f"attachment; filename= {file_name}")
-
-    msg.attach(part)
 
     print("smtplib login")
 
