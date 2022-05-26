@@ -7,6 +7,7 @@ import json
 import threading
 import time
 from email.message import EmailMessage
+from email.mime.base import MIMEBase
 from io import BytesIO
 import datetime
 import smtplib, ssl
@@ -60,16 +61,29 @@ def send_message_email(email_to, binary_data, file_name, report_text):
     msg['To'] = email_to
 
     file_name = "report.docx"
-    maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
-    print(f"maintype {maintype}")
-    print(f"subtype {subtype}")
-    print(f"file_name {file_name}")
+    # maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
+    # print(f"maintype {maintype}")
+    # print(f"subtype {subtype}")
+    # print(f"file_name {file_name}")
+    #
+    # msg.set_content('Добрый день! \n'
+    #                 'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
+    #                 f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
+    #                 )
+    # msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename="report.docx")
 
-    msg.set_content('Добрый день! \n'
-                    'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
-                    f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
-                    )
-    msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename="report.docx")
+    # attachment = open(file_name, 'rb')
+
+    part = MIMEBase("application", "octet-stream")
+
+    part.set_payload(binary_data)
+
+
+    part.add_header("Content-Disposition",
+                    f"attachment; filename= {file_name}")
+
+    msg.attach(part)
+
     print("smtplib login")
 
     with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
@@ -150,13 +164,13 @@ def sends():
 
 if __name__ == '__main__':
     SESSION = login(SESSION)
-    # i, file_name = get_report(
-    #     "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=year&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
-    # )
-    # i.seek(0)
-    # i = i.read()
-    # with open("output.docx", "wb") as f:
-    #     f.write(i.getbuffer())
-    # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
+    i, file_name = get_report(
+        "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=year&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
+    )
+    i.seek(0)
+    i = i.read()
+    with open("output.docx", "wb") as f:
+        f.write(i.getbuffer())
+    send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
 
     sends()
