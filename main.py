@@ -142,6 +142,7 @@ def sends():
 
 if __name__ == '__main__':
     SESSION = login(SESSION)
+    print(get_now())
     while True:
         print("step")
         try:
