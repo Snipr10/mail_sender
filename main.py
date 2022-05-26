@@ -72,13 +72,16 @@ def send_message_email(email_to, i, file_name, report_text):
 def send_message_time(id_, uri, time_, email, report_text):
     try:
         print(id_)
-        i, file_name = get_report(uri)
+        try:
+            i, file_name = get_report(uri)
 
-        now_time = datetime.datetime.now()
-        seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
-        print(time_-seconds)
-        if time_-seconds > 0:
-            time.sleep(time_-seconds)
+            now_time = datetime.datetime.now()
+            seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
+            print(time_-seconds)
+            if time_-seconds > 0:
+                time.sleep(time_-seconds)
+        except Exception as e:
+            print(e)
         try:
             send_message_email(email.split(), i, file_name, report_text[1:-1])
             new, conn = get_cursor()
