@@ -64,6 +64,7 @@ def send_message_email(email_to, i, file_name, report_text):
     msg['From'] = EMAIL
     msg['To'] = email_to
 
+    print(f"report_text {report_text}")
     msg.set_content('Добрый день! \n'
                     'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
                     f' сформирован отчёт по запросу по следующим субъектам/событиям: \n {report_text}'
@@ -78,15 +79,10 @@ def send_message_email(email_to, i, file_name, report_text):
 
     msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename=file_name)
 
-    print("smtplib login")
 
     with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
-        print("try login")
-
         server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
-        print("sucess login")
         server.send_message(msg)
-        print("send")
 
 
 def send_message_time(id_, uri, time_, email, report_text):
