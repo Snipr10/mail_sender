@@ -70,6 +70,7 @@ def send_message_email(email_to, file, file_name, report_text):
         server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
         print("sucess login")
         server.send_message(msg)
+        print("send")
 
 
 def send_message_time(id_, uri, time_, email, report_text):
