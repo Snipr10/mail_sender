@@ -95,7 +95,7 @@ def send_message_time(id_, uri, time_, email, report_text):
             print("send_message_time")
 
             # send_message_email(email, i, file_name, "report_text")
-
+            print(email)
             send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
 
             # i, file_name = get_report(uri)
