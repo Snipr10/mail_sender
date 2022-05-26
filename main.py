@@ -154,7 +154,7 @@ def sends():
 if __name__ == '__main__':
     SESSION = login(SESSION)
     i, file_name = get_report(
-        "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=year&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
+        "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=day&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
     )
     i.seek(0)
     i = i.read()
