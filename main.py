@@ -169,8 +169,7 @@ if __name__ == '__main__':
     )
     i.seek(0)
     i = i.read()
-    with open("output.docx", "wb") as f:
-        f.write(i.getbuffer())
+
     send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
 
     sends()
