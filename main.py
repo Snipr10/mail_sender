@@ -180,7 +180,8 @@ if __name__ == '__main__':
     #     server.send_message(msg)
     #     print("send")
     # #
-    send_message_email("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")
-    send_message_email("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")
+
+    threading.Thread(target=send_message_email, args=("gusevoleg96@gmail.com", "binary_data", "test31.docx", "report_text")).start()
+    threading.Thread(target=send_message_email, args=("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")).start()
 
     sends()
