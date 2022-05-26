@@ -48,7 +48,7 @@ def get_report(uri):
     return i, file_name
 
 
-def send_message_email(email_to, file, file_name, report_text):
+def send_message_email(email_to, binary_data, file_name, report_text):
     port = 465
     context = ssl.create_default_context()
 
@@ -57,8 +57,7 @@ def send_message_email(email_to, file, file_name, report_text):
     msg['From'] = EMAIL
     msg['To'] = email_to
 
-    file.seek(0)
-    binary_data = file.read()
+
     maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
     print(f"maintype {maintype}")
     print(f"subtype {subtype}")
@@ -84,7 +83,8 @@ def send_message_time(id_, uri, time_, email, report_text):
     try:
 
         i, file_name = get_report(uri)
-
+        i.seek(0)
+        binary_data = i.read()
         print("send_message_time")
         now_time = datetime.datetime.now()
         seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
@@ -94,7 +94,7 @@ def send_message_time(id_, uri, time_, email, report_text):
         try:
             print("send_message_time")
             time.sleep(60)
-            send_message_email(str(email), i, file_name, "report_text")
+            send_message_email(str(email), binary_data, file_name, "report_text")
             print(email)
             # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
 
