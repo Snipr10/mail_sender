@@ -44,18 +44,18 @@ SESSION = login(requests.session())
 
 def get_report(uri):
     report = SESSION.get(uri)
-    s = random.randint(0, 100)
     i = BytesIO(report.content)
-    name = f'test{s}.docx'
-    open(name, 'wb').write(report.content)
-    print(f"name = {name}")
+
     file_name = bytes(
         report.headers.get('Content-Disposition').replace("attachment;filename=", "").replace(
             '"', ""), 'latin1').decode('utf-8')
-    return i, name
+    return i, file_name
 
 
-def send_message_email(email_to, binary_data, file_name, report_text):
+def send_message_email(email_to, i, file_name, report_text):
+    i.seek(0)
+    binary_data = i.read()
+
     port = 465
     context = ssl.create_default_context()
 
@@ -64,16 +64,22 @@ def send_message_email(email_to, binary_data, file_name, report_text):
     msg['From'] = EMAIL
     msg['To'] = email_to
 
-    # msg.set_content('Добрый день! \n'
-    #                 'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
-    #                 f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
-    #                 )
-    msg.set_content("Hello, victim!")
+    msg.set_content('Добрый день! \n'
+                    'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
+                    f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
+                    )
 
-    with open(file_name, "rb") as fp:
-        msg.add_attachment(
-            fp.read(), maintype="file", subtype="docx", filename=file_name)
+    file_name = "report.docx"
+    maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
+    print(f"maintype {maintype}")
+    print(f"subtype {subtype}")
+    print(f"file_name {file_name}")
 
+    msg.set_content('Добрый день! \n'
+                    'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
+                    f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
+                    )
+    msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename=file_name)
 
     print("smtplib login")
 
@@ -89,14 +95,13 @@ def send_message_email(email_to, binary_data, file_name, report_text):
 def send_message_time(id_, uri, time_, email, report_text):
     try:
         i, file_name = get_report(uri)
-        i.seek(0)
-        binary_data = i.read()
+
         now_time = datetime.datetime.now()
         seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
         if time_-seconds > 0:
             time.sleep(time_-seconds)
         try:
-            send_message_email("gusevoleg96@gmail.com", binary_data, file_name, "report_text")
+            send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
             new, conn = get_cursor()
             new.execute(
                     "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (datetime.datetime.now(), id_, )
