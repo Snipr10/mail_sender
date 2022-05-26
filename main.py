@@ -56,7 +56,6 @@ def get_report(uri):
 
 
 def send_message_email(email_to, binary_data, file_name, report_text):
-    send_message_email("gusevoleg96@gmail.com", "binary_data", "test32.docx", "report_text")
     port = 465
     context = ssl.create_default_context()
 
