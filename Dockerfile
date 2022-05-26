@@ -1,12 +1,5 @@
 FROM python:3.9
 
-#RUN apk update
-#RUN apk add
-#
-#RUN apk update --update libmariadb3
-#RUN apk update --update libmariadb-dev
-
-
 
 # set work directory
 WORKDIR /usr/src/app

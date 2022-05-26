@@ -53,7 +53,7 @@ def send_message_email(email_to, i, file_name, report_text):
     msg['Subject'] = 'Автоматическая рассылка отчёта по выбранным субъектам/событиям'
     msg['From'] = EMAIL
     msg['To'] = email_to
-
+    print(email_to)
     msg.set_content('Добрый день! \n'
                     'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
                     f' сформирован отчёт по запросу по следующим субъектам/событиям: \n {report_text}'
@@ -133,4 +133,4 @@ if __name__ == '__main__':
             sends()
         except Exception as e:
             print(e)
-        time.sleep(2*60)
+        time.sleep(1*60)
