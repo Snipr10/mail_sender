@@ -64,7 +64,7 @@ def send_message_email(email_to, binary_data, file_name, report_text):
     msg['From'] = EMAIL
     msg['To'] = email_to
 
-    file_name = "report.docx"
+    # file_name = "report.docx"
     # maintype, _, subtype = (mimetypes.guess_type(file_name)[0] or 'application/octet-stream').partition("/")
     # print(f"maintype {maintype}")
     # print(f"subtype {subtype}")
