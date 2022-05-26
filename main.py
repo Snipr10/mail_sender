@@ -86,10 +86,7 @@ def send_message_time(id_, uri, time_, email, report_text):
         try:
             print("send_message_time")
 
-            send_message_email(email, i, file_name, report_text)
-
-            print("is_prepare=0")
-
+            send_message_email(email, i, file_name, "report_text")
             new, conn = get_cursor()
             new.execute(
                     "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (datetime.datetime.now(), id_, )
@@ -135,6 +132,11 @@ def sends():
 
 
 if __name__ == '__main__':
+
+
     SESSION = login(SESSION)
+    i, file_name = get_report(    "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=day&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
+)
+    send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
 
     sends()
