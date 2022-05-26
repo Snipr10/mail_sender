@@ -1,8 +1,6 @@
-FROM python:3.9-slim-buster
+FROM python:3.9.13-alpine3.16
 
-#RUN apt-get install libmariadb3 libmariadb-dev
-RUN pip3 install mariadb
-
+RUN apt-get install libmariadb3 libmariadb-dev
 
 
 # set work directory
