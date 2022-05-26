@@ -3,8 +3,8 @@ RUN apk update
 RUN apk add
 
 RUN apk update --update libmariadb3
+RUN apk update --update libmariadb-dev
 
-RUN apt-get install libmariadb3 libmariadb-dev
 
 
 # set work directory
