@@ -76,6 +76,7 @@ def send_message_time(id_, uri, time_, email, report_text):
 
         now_time = datetime.datetime.now()
         seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
+        print(time_-seconds)
         if time_-seconds > 0:
             time.sleep(time_-seconds)
         try:
