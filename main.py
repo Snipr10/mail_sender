@@ -141,4 +141,4 @@ if __name__ == '__main__':
 )
     send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
 
-    # sends()
+    sends()
