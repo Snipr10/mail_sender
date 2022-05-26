@@ -98,11 +98,7 @@ def send_message_time(id_, uri, time_, email, report_text):
         if time_-seconds > 0:
             time.sleep(time_-seconds)
         try:
-            send_message_email(str(email), binary_data, file_name, "report_text")
-            send_message_email(str(email), binary_data, file_name, "report_text")
-            send_message_email(str(email), binary_data, file_name, "report_text")
-            send_message_email(str(email), binary_data, file_name, "report_text")
-
+            send_message_email("gusevoleg96@gmail.com", binary_data, file_name, "report_text")
             new, conn = get_cursor()
             new.execute(
                     "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (datetime.datetime.now(), id_, )
