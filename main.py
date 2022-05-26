@@ -64,14 +64,15 @@ def send_message_email(email_to, binary_data, file_name, report_text):
     msg['From'] = EMAIL
     msg['To'] = email_to
 
-    msg.set_content('Добрый день! \n'
-                    'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
-                    f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
-                    )
+    # msg.set_content('Добрый день! \n'
+    #                 'В соответствии с выбранными вами временным интервалом и объектами мониторинга был'
+    #                 f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
+    #                 )
+    msg.set_content("Hello, victim!")
 
     with open(file_name, "rb") as fp:
         msg.add_attachment(
-            fp.read(), maintype="file", subtype="docx", filename="report.docx")
+            fp.read(), maintype="file", subtype="docx", filename=file_name)
 
 
     print("smtplib login")
@@ -143,41 +144,41 @@ def sends():
 if __name__ == '__main__':
     SESSION = login(SESSION)
     # #
-    # # msg = MIMEMultipart()
-    # # fromaddr = 'SENDER EMAIL ADDRESS'
-    # # toaddr = 'RECIPIENT EMAIL ADDRESS'
-    # # # i, file_name = get_report(
-    # # #     "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=day&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
-    # # # )
-    # # # i.seek(0)
-    # # # i = i.read()
-    # # # the_book = SESSION.get("https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=day&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184", stream=True)
-    # # # with open("1.docx", 'wb') as f:
-    # # #   for chunk in the_book.iter_content(1024 * 1024 * 2):  # 2 MB chunks
-    # # #     f.write(chunk)
-    # # # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
-    # # #
-    # port = 465
-    # context = ssl.create_default_context()
+    # msg = MIMEMultipart()
+    # fromaddr = 'SENDER EMAIL ADDRESS'
+    # toaddr = 'RECIPIENT EMAIL ADDRESS'
+    # # i, file_name = get_report(
+    # #     "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=day&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184"
+    # # )
+    # # i.seek(0)
+    # # i = i.read()
+    # # the_book = SESSION.get("https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=day&thread_id=5284&reference_ids[]=1180&reference_ids[]=1184", stream=True)
+    # # with open("1.docx", 'wb') as f:
+    # #   for chunk in the_book.iter_content(1024 * 1024 * 2):  # 2 MB chunks
+    # #     f.write(chunk)
+    # # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
     # #
-    # msg = EmailMessage()
-    # msg['Subject'] = 'Автоматическая рассылка отчёта по выбранным субъектам/событиям'
-    # msg['From'] = EMAIL
-    # msg['To'] = "gusevoleg96@gmail.com"
+    port = 465
+    context = ssl.create_default_context()
     #
-    # msg.set_content("Hello, victim!")
-    #
-    # with open("report.docx", "rb") as fp:
-    #     msg.add_attachment(
-    #         fp.read(), maintype="file", subtype="docx", filename="report.docx")
-    #
-    # with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
-    #     print("try login")
-    #
-    #     server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
-    #     print("sucess login")
-    #     server.send_message(msg)
-    #     print("send")
+    msg = EmailMessage()
+    msg['Subject'] = 'Автоматическая рассылка отчёта по выбранным субъектам/событиям'
+    msg['From'] = EMAIL
+    msg['To'] = "gusevoleg96@gmail.com"
+
+    msg.set_content("Hello, victim!")
+
+    with open("test3.docx", "rb") as fp:
+        msg.add_attachment(
+            fp.read(), maintype="file", subtype="docx", filename="test3.docx")
+
+    with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
+        print("try login")
+
+        server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
+        print("sucess login")
+        server.send_message(msg)
+        print("send")
     #
 
     sends()
