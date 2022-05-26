@@ -1,6 +1,7 @@
 FROM python:3.9-slim-buster
 
-RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
+RUN sudo apt-get install libmariadb3 libmariadb-dev
+
 
 
 # set work directory
