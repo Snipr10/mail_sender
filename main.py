@@ -93,7 +93,7 @@ def send_message_time(id_, uri, time_, email, report_text):
             time.sleep(time_-seconds)
         try:
             print("send_message_time")
-
+            time.sleep(60)
             send_message_email(str(email), i, file_name, "report_text")
             print(email)
             # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
