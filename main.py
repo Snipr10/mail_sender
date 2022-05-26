@@ -3,6 +3,7 @@
 # Press Shift+F10 to execute it or replace it with your code.
 # Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 import json
+import random
 
 import threading
 import time
@@ -43,14 +44,15 @@ SESSION = login(requests.session())
 
 def get_report(uri):
     report = SESSION.get(uri)
-
+    s = random.randint(0, 100)
     i = BytesIO(report.content)
-    open('test.docx', 'wb').write(report.content)
+    name = f'test{s}.docx'
+    open(name, 'wb').write(report.content)
 
     file_name = bytes(
         report.headers.get('Content-Disposition').replace("attachment;filename=", "").replace(
             '"', ""), 'latin1').decode('utf-8')
-    return i, file_name
+    return i, name
 
 
 def send_message_email(email_to, binary_data, file_name, report_text):
@@ -73,9 +75,11 @@ def send_message_email(email_to, binary_data, file_name, report_text):
                     f' сформирован отчёт по запросу по следующим субъектам/событиям: \n{report_text}'
                     )
     # msg.add_attachment(binary_data, maintype=maintype, subtype=subtype, filename="report.docx")
-    with open("test.docx", "rb") as fp:
+
+    with open(file_name, "rb") as fp:
         msg.add_attachment(
-            fp.read(), maintype="file", subtype="doxc", filename="123.doxc")
+            fp.read(), maintype="file", subtype="docx", filename="report.docx")
+
 
     print("smtplib login")
 
@@ -90,27 +94,15 @@ def send_message_email(email_to, binary_data, file_name, report_text):
 
 def send_message_time(id_, uri, time_, email, report_text):
     try:
-
         i, file_name = get_report(uri)
         i.seek(0)
         binary_data = i.read()
-        print("send_message_time")
         now_time = datetime.datetime.now()
         seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
-        print(seconds-time_)
         if time_-seconds > 0:
             time.sleep(time_-seconds)
         try:
-            print("send_message_time")
-            # time.sleep(60)
             send_message_email(str(email), binary_data, file_name, "report_text")
-            print(email)
-            # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
-
-            # i, file_name = get_report(uri)
-            # send_message_email("gusevoleg96@gmail.com", i, file_name, "report_text")
-
-            # send_message_email(email, i, file_name, "report_text")
             new, conn = get_cursor()
             new.execute(
                     "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (datetime.datetime.now(), id_, )
@@ -182,9 +174,9 @@ if __name__ == '__main__':
 
     msg.set_content("Hello, victim!")
 
-    with open("test.docx", "rb") as fp:
+    with open("report.docx", "rb") as fp:
         msg.add_attachment(
-            fp.read(), maintype="file", subtype="doxc", filename="aqw.doxc")
+            fp.read(), maintype="file", subtype="docx", filename="report.docx")
 
     with smtplib.SMTP_SSL("smtp.glassen-it.com", port, context=context) as server:
         print("try login")
