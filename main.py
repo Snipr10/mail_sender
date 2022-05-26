@@ -72,12 +72,12 @@ def send_message_email(email_to, i, file_name, report_text):
 def send_message_time(id_, uri, time_, email, report_text):
     try:
         print(id_)
-        print(datetime.datetime.now())
+        print(datetime.datetime.now() + datetime.timedelta(hours=3))
 
         try:
             i, file_name = get_report(uri)
 
-            now_time = datetime.datetime.now()
+            now_time = datetime.datetime.now() + datetime.timedelta(hours=3)
             print(now_time)
             seconds = now_time.second + now_time.minute*60 + now_time.hour*3600
             print(time_-seconds)
@@ -113,8 +113,8 @@ def sends():
         "`prsr_user_mail` WHERE is_prepare=0 and (`mailing_time` >= '23:50' or `mailing_time` >= ?)  and "
         "`last_mailing` < ?",
         (
-            (datetime.datetime.now() - datetime.timedelta(minutes=10)).strftime('%H:%M:%S'),
-            (datetime.datetime.now() - datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
+            (datetime.datetime.now() + datetime.timedelta(hours=3) - datetime.timedelta(minutes=10)).strftime('%H:%M:%S'),
+            (datetime.datetime.now() + datetime.timedelta(hours=3) - datetime.timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S'),)
     )
     new, conn = get_cursor()
 
