@@ -86,7 +86,7 @@ def send_message_time(id_, uri, time_, email, report_text):
             print(now_time)
             seconds = now_time.second + now_time.minute * 60 + now_time.hour * 3600
             print(time_ - seconds)
-            if time_ - seconds > 0:
+            if 0 < time_ - seconds < 85800:
                 time.sleep(time_ - seconds)
         except Exception as e:
             print(e)
