@@ -11,6 +11,9 @@ import mimetypes
 import requests as requests
 
 from maria import get_cursor
+from telegram import Bot
+
+CHAT_ID = "-748459012"
 
 URL = "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
 LOGIN_URL = "https://api.glassen-it.com/component/socparser/authorization/login"
@@ -77,12 +80,19 @@ def send_message_email(email_to, i, file_name, report_text):
         server.login(EMAIL_LOGIN, EMAIL_PASSWORD)
         server.send_message(msg)
 
+    try:
+        BOT.send_document(chat_id=CHAT_ID,
+                          document=binary_data,
+                          filename=file_name,
+                          caption=f"Отчет отправлен {email_to}"
+                          )
+    except Exception as e:
+        print(e)
+
 
 def send_message_time(id_, uri, time_, email, report_text):
     try:
         print(id_)
-        print()
-
         try:
             i, file_name = get_report(uri)
 
@@ -115,7 +125,6 @@ def send_message_time(id_, uri, time_, email, report_text):
 
 
 def sends():
-
     cur, set_conn = get_cursor()
     cur.execute(
         "SELECT id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare FROM "
@@ -146,6 +155,10 @@ def sends():
 
 if __name__ == '__main__':
     SESSION = login(SESSION)
+    try:
+        BOT = Bot("5400054992:AAEJzk6lQfBnBxVwr4GS4tOafAEuj1Wavxs")
+    except Exception as e:
+        BOT = None
     print(get_now())
     while True:
         print("step")
