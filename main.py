@@ -99,7 +99,7 @@ def send_message_time(id_, uri, time_, email, report_text):
             now_time = get_now()
             print(now_time)
             seconds = now_time.second + now_time.minute * 60 + now_time.hour * 3600
-            print(time_ - seconds)
+            print(f'sleep time {time_ - seconds}')
             if 0 < time_ - seconds < 85800:
                 time.sleep(time_ - seconds)
             print(f'sleep time {time_ - seconds}')
