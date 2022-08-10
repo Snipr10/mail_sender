@@ -102,7 +102,7 @@ def send_message_time(id_, uri, time_, email, report_text):
             print(time_ - seconds)
             if 0 < time_ - seconds < 85800:
                 time.sleep(time_ - seconds)
-                print(f'sleep time {time_ - seconds}')
+            print(f'sleep time {time_ - seconds}')
         except Exception as e:
             print(e)
         try:
