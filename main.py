@@ -133,9 +133,9 @@ def sends():
         "`mailing_time` >= ? and ? >= `mailing_time`))  and "
         "`last_mailing` < ?",
         (
-            (get_now() - datetime.timedelta(minutes=10)).strftime(
+            (get_now() - datetime.timedelta(minutes=3)).strftime(
                 '%H:%M:%S'),
-            (get_now() + datetime.timedelta(minutes=10)).strftime(
+            (get_now() + datetime.timedelta(minutes=3)).strftime(
                 '%H:%M:%S'),
             (get_now() - datetime.timedelta(hours=1)).strftime(
                 '%Y-%m-%d %H:%M:%S'),)
