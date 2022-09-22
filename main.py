@@ -41,13 +41,16 @@ def login(session):
 SESSION = login(requests.session())
 
 
-def get_report(uri):
+def get_report(uri, attempt=0):
     report = SESSION.get(uri)
     i = BytesIO(report.content)
 
     file_name = bytes(
         report.headers.get('Content-Disposition').replace("attachment;filename=", "").replace(
             '"', ""), 'latin1').decode('utf-8')
+    if attempt < 5 and\
+            report.content == b'"\xd0\xa7\xd1\x82\xd0\xbe-\xd1\x82\xd0\xbe \xd0\xbf\xd0\xbe\xd1\x88\xd0\xbb\xd0\xbe \xd0\xbd\xd0\xb5 \xd1\x82\xd0\xb0\xd0\xba"':
+        return get_report(uri, attempt+1)
     return i, file_name
 
 
