@@ -32,6 +32,7 @@ def login(session):
         "login": "superadmin",
         "password": "superadmin"
     }
+    print(LOGIN_URL)
     response = session.post(LOGIN_URL, json=payload, headers={
         'Content-Type': 'application/json'})
     if not response.ok:
