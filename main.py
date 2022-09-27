@@ -34,6 +34,7 @@ def login(session):
     }
     response = session.post(LOGIN_URL, json=payload)
     if not response.ok:
+        print(response.text)
         raise Exception("can not login")
     return session
 
