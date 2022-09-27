@@ -33,11 +33,17 @@ def login(session):
         "password": "superadmin"
     }
     print(LOGIN_URL)
-    response = session.post(LOGIN_URL, json=payload, headers={
-        'Content-Type': 'application/json'})
-    if not response.ok:
-        print(response.text)
-        raise Exception("can not login")
+    session_ = False
+    while not session_:
+        try:
+            response = session.post(LOGIN_URL, json=payload, headers={
+                'Content-Type': 'application/json'})
+            if not response.ok:
+                print(response.text)
+                raise Exception("can not login")
+            session_ = True
+        except Exception:
+            pass
     return session
 
 
