@@ -13,10 +13,10 @@ import requests as requests
 from maria import get_cursor
 from telegram import Bot
 
-CHAT_ID = "-748459012"
+CHAT_ID = "-869945128"
 
-URL = "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
-LOGIN_URL = "https://api.glassen-it.com/component/socparser/authorization/login"
+URL = "https://isiao.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
+LOGIN_URL = "https://isiao.glassen-it.com/component/socparser/authorization/login"
 
 EMAIL = 'report@glassen-it.com'
 EMAIL_LOGIN = "report"
@@ -29,8 +29,8 @@ def get_now():
 
 def login(session):
     payload = {
-        "login": "java_api",
-        "password": "4yEcwVnjEH7D"
+        "login": "superadmin",
+        "password": "superadmin"
     }
     response = session.post(LOGIN_URL, json=payload)
     if not response.ok:
@@ -113,7 +113,7 @@ def send_message_time(id_, uri, time_, email, report_text):
             send_message_email(email.split(), i, file_name, report_text[1:-1])
             new, conn = get_cursor()
             new.execute(
-                "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (get_now(), id_,)
+                "UPDATE `prsr_user_mail_lk_78` SET is_prepare=0, last_mailing=? WHERE id=?", (get_now(), id_,)
             )
             conn.commit()
             conn.close()
@@ -121,7 +121,7 @@ def send_message_time(id_, uri, time_, email, report_text):
 
             new, conn = get_cursor()
             new.execute(
-                "UPDATE `prsr_user_mail` SET is_prepare=0 WHERE id=?", (id_,)
+                "UPDATE `prsr_user_mail_lk_78` SET is_prepare=0 WHERE id=?", (id_,)
             )
             conn.commit()
             conn.close()
@@ -133,7 +133,7 @@ def sends():
     cur, set_conn = get_cursor()
     cur.execute(
         "SELECT id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare FROM "
-        "`prsr_user_mail` WHERE is_prepare=0 and ('00:10:00' >= `mailing_time` or `mailing_time` >= '23:50:00' or ("
+        "`prsr_user_mail_lk_78` WHERE is_prepare=0 and ('00:10:00' >= `mailing_time` or `mailing_time` >= '23:50:00' or ("
         "`mailing_time` >= ? and ? >= `mailing_time`))  and "
         "`last_mailing` < ?",
         (
@@ -149,7 +149,7 @@ def sends():
     for line in cur:
 
         new.execute(
-            "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
+            "UPDATE `prsr_user_mail_lk_78` SET is_prepare=1 WHERE id=?", (line[0],)
         )
         conn.commit()
         reference_ids = ""
@@ -164,7 +164,7 @@ def sends():
 if __name__ == '__main__':
     SESSION = login(SESSION)
     try:
-        BOT = Bot("5400054992:AAEJzk6lQfBnBxVwr4GS4tOafAEuj1Wavxs")
+        BOT = Bot("5712734439:AAEgzNRIpiIwJJI6bxc2yNAUpAwJfkk3ABk")
     except Exception as e:
         BOT = None
     print(get_now())
