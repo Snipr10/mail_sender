@@ -128,7 +128,7 @@ def send_message_time(id_, uri, time_, email, report_text):
             send_message_email(email.split(), i, file_name, report_text[1:-1])
             new, conn = get_cursor()
             new.execute(
-                "UPDATE `prsr_user_mail_lk_78` SET is_prepare=0, last_mailing=? WHERE id=?", (get_now(), id_,)
+                "UPDATE `prsr_user_mail` SET is_prepare=0, last_mailing=? WHERE id=?", (get_now(), id_,)
             )
             conn.commit()
             conn.close()
@@ -136,7 +136,7 @@ def send_message_time(id_, uri, time_, email, report_text):
 
             new, conn = get_cursor()
             new.execute(
-                "UPDATE `prsr_user_mail_lk_78` SET is_prepare=0 WHERE id=?", (id_,)
+                "UPDATE `prsr_user_mail` SET is_prepare=0 WHERE id=?", (id_,)
             )
             conn.commit()
             conn.close()
@@ -148,7 +148,7 @@ def sends():
     cur, set_conn = get_cursor()
     cur.execute(
         "SELECT id, last_mailing, mailing_time, reference_ids, thread_id, topics, email, period, is_prepare FROM "
-        "`prsr_user_mail_lk_78` WHERE is_prepare=0 and ('00:10:00' >= `mailing_time` or `mailing_time` >= '23:50:00' or ("
+        "`prsr_user_mail` WHERE is_prepare=0 and ('00:10:00' >= `mailing_time` or `mailing_time` >= '23:50:00' or ("
         "`mailing_time` >= ? and ? >= `mailing_time`))  and "
         "`last_mailing` < ?",
         (
@@ -164,7 +164,7 @@ def sends():
     for line in cur:
 
         new.execute(
-            "UPDATE `prsr_user_mail_lk_78` SET is_prepare=1 WHERE id=?", (line[0],)
+            "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
         )
         conn.commit()
         reference_ids = ""
