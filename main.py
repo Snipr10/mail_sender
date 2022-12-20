@@ -15,8 +15,8 @@ from telegram import Bot
 
 CHAT_ID = "-869945128"
 
-URL = "https://isiao.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
-LOGIN_URL = "https://isiao.glassen-it.com/component/socparser/authorization/login"
+URL = "https://api.cabmon.uat.spb.ias.adc.spb.ru/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
+LOGIN_URL = "https://api.cabmon.uat.spb.ias.adc.spb.ru/component/socparser/authorization/login"
 
 EMAIL = 'report@glassen-it.com'
 EMAIL_LOGIN = "report"
@@ -29,21 +29,12 @@ def get_now():
 
 def login(session):
     payload = {
-        "login": "superadmin",
-        "password": "superadmin"
+        "login": "java_api",
+        "password": "4yEcwVnjEH7D"
     }
-    print(LOGIN_URL)
-    session_ = False
-    while not session_:
-        try:
-            response = session.post(LOGIN_URL, json=payload, headers={
-                'Content-Type': 'application/json'})
-            if not response.ok:
-                print(response.text)
-                raise Exception("can not login")
-            session_ = True
-        except Exception:
-            pass
+    response = session.post(LOGIN_URL, json=payload)
+    if not response.ok:
+        raise Exception("can not login")
     return session
 
 
