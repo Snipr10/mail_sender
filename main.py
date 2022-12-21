@@ -143,9 +143,9 @@ def sends():
         "`mailing_time` >= ? and ? >= `mailing_time`))  and "
         "`last_mailing` < ?",
         (
-            (get_now() - datetime.timedelta(minutes=3)).strftime(
+            (get_now() - datetime.timedelta(minutes=27)).strftime(
                 '%H:%M:%S'),
-            (get_now() + datetime.timedelta(minutes=3)).strftime(
+            (get_now() + datetime.timedelta(minutes=27)).strftime(
                 '%H:%M:%S'),
             (get_now() - datetime.timedelta(hours=1)).strftime(
                 '%Y-%m-%d %H:%M:%S'),)
@@ -162,6 +162,7 @@ def sends():
         for r in json.loads(line[3]):
             reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
+        time.sleep(3*60)
         threading.Thread(target=send_message_time, args=(line[0], uri, line[2].seconds, line[6], line[5])).start()
     conn.close()
     set_conn.close()
