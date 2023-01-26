@@ -166,7 +166,7 @@ def sends():
         )
         conn.commit()
         reference_ids = ""
-        for r in json.loads(line[3]):
+        for r in list(set(json.loads(line[3]))):
             reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
         threading.Thread(target=send_message_time, args=(line[0], uri, line[2].seconds, line[6], line[5])).start()
