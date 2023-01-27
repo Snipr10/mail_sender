@@ -18,7 +18,7 @@ CHAT_ID = "-748459012"
 
 URL = "https://api.glassen-it.com/component/socparser/content/getReportDocxRef?period=%s&thread_id=%s"
 LOGIN_URL = "https://api.glassen-it.com/component/socparser/authorization/login"
-
+SUBECT_URL = "https://api.glassen-it.com/component/socparser/users/getreferences"
 EMAIL = 'report@glassen-it.com'
 EMAIL_LOGIN = "report"
 EMAIL_PASSWORD = "J7sp7b8jf"
@@ -26,6 +26,22 @@ EMAIL_PASSWORD = "J7sp7b8jf"
 
 def get_now():
     return datetime.datetime.now() + datetime.timedelta(hours=3)
+
+
+def get_references(REFERENCES):
+    try:
+        res = SESSION.post(SUBECT_URL, {
+            "group_id": UID,
+            "is_user_id": 1
+        })
+        if res.ok:
+            res = res.json()
+        REFERENCES.clear()
+        for r in res:
+            for i in r.get("items", []):
+                REFERENCES.append(i.get("id"))
+    except Exception:
+        pass
 
 
 def login(session):
@@ -36,10 +52,8 @@ def login(session):
     response = session.post(LOGIN_URL, json=payload)
     if not response.ok:
         raise Exception("can not login")
-    return session
 
-
-SESSION = login(requests.session())
+    return session, response.json().get("uid")
 
 
 def get_report(uri, attempt=0):
@@ -50,19 +64,21 @@ def get_report(uri, attempt=0):
         file_name = bytes(
             report.headers.get('Content-Disposition').replace("attachment;filename=", "").replace(
                 '"', ""), 'latin1').decode('utf-8')
+
         if attempt < 10 and \
-                (report.content == b'"\xd0\xa7\xd1\x82\xd0\xbe-\xd1\x82\xd0\xbe \xd0\xbf\xd0\xbe\xd1\x88\xd0\xbb\xd0\xbe \xd0\xbd\xd0\xb5 \xd1\x82\xd0\xb0\xd0\xba"'
-                 or "Microsoft_Excel_Sheet" not in report.text):
+                (
+                        report.content == b'"\xd0\xa7\xd1\x82\xd0\xbe-\xd1\x82\xd0\xbe \xd0\xbf\xd0\xbe\xd1\x88\xd0\xbb\xd0\xbe \xd0\xbd\xd0\xb5 \xd1\x82\xd0\xb0\xd0\xba"'
+                        or "Microsoft_Excel_Sheet" not in report.text):
             print(report.content)
             time.sleep(random.randint(1, 15))
             print(uri)
-            return get_report(uri, attempt+1)
+            return get_report(uri, attempt + 1)
     except Exception as e:
         if attempt < 15:
             print(e)
             print(uri)
             time.sleep(random.randint(1, 15))
-            return get_report(uri, attempt+1)
+            return get_report(uri, attempt + 1)
         else:
             raise Exception(f"Error {e}")
     return i, file_name
@@ -167,7 +183,8 @@ def sends():
         conn.commit()
         reference_ids = ""
         for r in list(set(json.loads(line[3]))):
-            reference_ids += "&reference_ids[]=" + str(r)
+            if r in REFERENCES:
+                reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
         threading.Thread(target=send_message_time, args=(line[0], uri, line[2].seconds, line[6], line[5])).start()
     conn.close()
@@ -175,18 +192,24 @@ def sends():
 
 
 if __name__ == '__main__':
-    SESSION = login(SESSION)
+    REFERENCES = []
+    SESSION, UID = login(requests.session())
+    get_references(REFERENCES)
     try:
         BOT = Bot("5400054992:AAEJzk6lQfBnBxVwr4GS4tOafAEuj1Wavxs")
     except Exception as e:
         BOT = None
     print(get_now())
+    i = 0
     while True:
         print("step")
         print(get_now())
-
         try:
             sends()
         except Exception as e:
             print(e)
         time.sleep(1 * 60)
+        i += 1
+        if i > 20:
+            get_references(REFERENCES)
+            i = 0
