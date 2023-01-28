@@ -1,7 +1,10 @@
 # Module Imports
 # import mariadb
 import sys
-import mariadb
+import time
+
+
+# import mariadb
 
 def get_cursor():
     # Connect to MariaDB Platform
@@ -15,6 +18,8 @@ def get_cursor():
 
         )
     except mariadb.Error as e:
+        time.sleep(10)
+        get_cursor()
         print(f"Error connecting to MariaDB Platform: {e}")
         sys.exit(1)
 
