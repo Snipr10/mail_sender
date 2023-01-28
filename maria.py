@@ -4,7 +4,7 @@ import sys
 import time
 
 
-# import mariadb
+import mariadb
 
 def get_cursor():
     # Connect to MariaDB Platform
