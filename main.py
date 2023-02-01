@@ -175,7 +175,7 @@ def sends():
     )
     new, conn = get_cursor()
 
-    for line in cur[:1]:
+    for line in cur:
 
         new.execute(
             "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
@@ -187,6 +187,7 @@ def sends():
                 reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
         threading.Thread(target=send_message_time, args=(line[0], uri, line[2].seconds, line[6], line[5])).start()
+        break
     conn.close()
     set_conn.close()
 
