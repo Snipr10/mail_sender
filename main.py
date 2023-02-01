@@ -166,9 +166,9 @@ def sends():
         "`mailing_time` >= ? and ? >= `mailing_time`))  and "
         "`last_mailing` < ?",
         (
-            (get_now() - datetime.timedelta(minutes=random.randint(10, 20))).strftime(
+            (get_now() - datetime.timedelta(minutes=random.randint(15, 25))).strftime(
                 '%H:%M:%S'),
-            (get_now() + datetime.timedelta(minutes=random.randint(10, 20))).strftime(
+            (get_now() + datetime.timedelta(minutes=random.randint(15, 25))).strftime(
                 '%H:%M:%S'),
             (get_now() - datetime.timedelta(hours=1)).strftime(
                 '%Y-%m-%d %H:%M:%S'),)
@@ -187,6 +187,7 @@ def sends():
                 reference_ids += "&reference_ids[]=" + str(r)
         uri = URL % (line[7], line[4]) + reference_ids
         threading.Thread(target=send_message_time, args=(line[0], uri, line[2].seconds, line[6], line[5])).start()
+        break
     conn.close()
     set_conn.close()
 
