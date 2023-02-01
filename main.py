@@ -175,7 +175,7 @@ def sends():
     )
     new, conn = get_cursor()
 
-    for line in cur:
+    for line in cur[:1]:
 
         new.execute(
             "UPDATE `prsr_user_mail` SET is_prepare=1 WHERE id=?", (line[0],)
