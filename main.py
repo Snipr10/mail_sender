@@ -166,9 +166,9 @@ def sends():
         "`mailing_time` >= ? and ? >= `mailing_time`))  and "
         "`last_mailing` < ?",
         (
-            (get_now() - datetime.timedelta(minutes=random.randint(10, 20))).strftime(
+            (get_now() - datetime.timedelta(minutes=random.randint(10, 25))).strftime(
                 '%H:%M:%S'),
-            (get_now() + datetime.timedelta(minutes=random.randint(10, 20))).strftime(
+            (get_now() + datetime.timedelta(minutes=random.randint(10, 25))).strftime(
                 '%H:%M:%S'),
             (get_now() - datetime.timedelta(hours=1)).strftime(
                 '%Y-%m-%d %H:%M:%S'),)
