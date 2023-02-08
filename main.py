@@ -70,7 +70,7 @@ def get_report(uri, attempt=0):
                         report.content == b'"\xd0\xa7\xd1\x82\xd0\xbe-\xd1\x82\xd0\xbe \xd0\xbf\xd0\xbe\xd1\x88\xd0\xbb\xd0\xbe \xd0\xbd\xd0\xb5 \xd1\x82\xd0\xb0\xd0\xba"'
                         or "Microsoft_Excel_Sheet" not in report.text):
             print(report.content)
-            time.sleep(random.randint(1, 15))
+            time.sleep(random.randint(35, 3*60))
             print(uri)
             return get_report(uri, attempt + 1)
     except Exception as e:
