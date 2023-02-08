@@ -77,7 +77,7 @@ def get_report(uri, attempt=0):
         if attempt < 15:
             print(e)
             print(uri)
-            time.sleep(random.randint(1, 15))
+            time.sleep(random.randint(35, 3*60))
             return get_report(uri, attempt + 1)
         else:
             raise Exception(f"Error {e}")
