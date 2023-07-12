@@ -1,5 +1,5 @@
 
-FROM python:3.9
+FROM python:3.10
 
 # set work directory
 WORKDIR /usr/src/app
@@ -9,7 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # RUN apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 0xcbcb082a1bb943db
-RUN curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
+# RUN curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | bash
 RUN apt-get install -y apt-transport-https
 COPY requirements.txt /usr/src/app/requirements.txt
 RUN apt-get install -y libmariadb3
