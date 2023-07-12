@@ -16,7 +16,7 @@ RUN apt-get install -y libmariadb3
 RUN apt-get install -y libmariadb-dev
 
 
-RUN pip3 install mariadb==1.0.0
+RUN pip3 install mariadb==1.1.7
 RUN pip3 install -r requirements.txt
 
 # copy project
