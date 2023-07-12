@@ -1,6 +1,5 @@
 
 FROM python:3.10.10
-
 # set work directory
 WORKDIR /usr/src/app
 
@@ -15,8 +14,8 @@ COPY requirements.txt /usr/src/app/requirements.txt
 RUN apt-get install -y libmariadb3
 RUN apt-get install -y libmariadb-dev
 
-RUN pip3 install --upgrade pip
-RUN pip3 install mariadb==1.1.7
+
+RUN pip3 install mariadb==1.0.0
 RUN pip3 install -r requirements.txt
 
 # copy project
