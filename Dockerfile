@@ -1,5 +1,5 @@
 
-FROM python:3.9
+FROM python:3.8
 
 # set work directory
 WORKDIR /usr/src/app
