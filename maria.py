@@ -9,7 +9,7 @@ def get_cursor():
         conn = mariadb.connect(
             user="parser",
             password="9ExtUS8uRyF9FSDf",
-            host="192.168.5.11",
+            host="192.168.5.27",
             port=3306,
             database="parser"
 
